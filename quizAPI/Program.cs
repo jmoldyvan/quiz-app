@@ -12,7 +12,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<QuizDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("PSQLConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("PSQLConnection"),
+sqlServerOptionsAction: sqlOptions =>
+{
+    sqlOptions.EnableRetryOnFailure();
+}
+));
 
 var app = builder.Build();
 
