@@ -21,6 +21,17 @@ export default function Login(){
 
     const login = e => {
         e.preventDefault();
+        if (validate()){
+            console.log(values);
+        }
+    }
+
+    const validate = () =>{
+        let temp ={}
+        temp.email = (/\S+@\S+\.\S+/).test(values.email) ? "" : "Email is not valid."
+        temp.name = values.name != "" ? "" : "This field is required."
+        setErrors(temp)
+        return Object.values(temp).every(x => x == "")
     }
 
     return (
@@ -43,6 +54,7 @@ export default function Login(){
                                 value = {values.email}
                                 onChange = {handleInputChange}
                                 variant = "outlined"
+                                {...(errors.email && {error:true, helperText:errors.email})}
                             />
                             <TextField 
                                 label = "Name"
@@ -50,15 +62,14 @@ export default function Login(){
                                 value = {values.name}
                                 onChange = {handleInputChange}
                                 variant = "outlined"
+                                {...(errors.name && {error:true, helperText:errors.name})}
                             />
                             <Button
                                 type = "submit"
                                 variant = 'contained'
                                 size = 'large'
                                 sx={{
-        
                                         width: '90%'
-                                    
                                 }}>START</Button>
                         </form>
                     </Box>
